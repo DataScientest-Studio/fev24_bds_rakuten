@@ -23,7 +23,7 @@ Project Organization
     ├── reports            <- The reports that you'll make during this project as PDF
     │   └── figures        <- Generated graphics and figures to be used in reporting
     │
-    ├── environment.yml   <- The environments file for reproducing the analysis environment
+    ├── environment.yml    <- The environments file for reproducing the analysis environment
     │
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
