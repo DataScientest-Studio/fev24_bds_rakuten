@@ -2,6 +2,7 @@
 
 name: bds_rakuten_env
 channels:
+  - conda-forge
   - defaults
 dependencies:
   - blas=1.0=openblas
