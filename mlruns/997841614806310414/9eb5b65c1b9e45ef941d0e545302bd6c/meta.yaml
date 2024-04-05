@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/../mlruns/997841614806310414/9eb5b65c1b9e45ef941d0e545302bd6c/artifacts
+end_time: 1712308501430
+entry_point_name: ''
+experiment_id: '997841614806310414'
+lifecycle_stage: active
+run_id: 9eb5b65c1b9e45ef941d0e545302bd6c
+run_name: dazzling-shrimp-423
+run_uuid: 9eb5b65c1b9e45ef941d0e545302bd6c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712306278055
+status: 3
+tags: []
+user_id: jeremyrava

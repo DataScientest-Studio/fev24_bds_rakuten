@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/../mlruns/997841614806310414/546b18622e4f4ec29853d2e4be109f43/artifacts
+end_time: 1712308760473
+entry_point_name: ''
+experiment_id: '997841614806310414'
+lifecycle_stage: active
+run_id: 546b18622e4f4ec29853d2e4be109f43
+run_name: bright-perch-177
+run_uuid: 546b18622e4f4ec29853d2e4be109f43
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712308730397
+status: 3
+tags: []
+user_id: jeremyrava

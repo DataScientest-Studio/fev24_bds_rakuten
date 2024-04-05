@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/../mlruns/997841614806310414/b05440c1ef1c4627a37b04d4fc474e5a/artifacts
+end_time: 1712308501430
+entry_point_name: ''
+experiment_id: '997841614806310414'
+lifecycle_stage: active
+run_id: b05440c1ef1c4627a37b04d4fc474e5a
+run_name: skittish-slug-769
+run_uuid: b05440c1ef1c4627a37b04d4fc474e5a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712306278055
+status: 3
+tags: []
+user_id: jeremyrava

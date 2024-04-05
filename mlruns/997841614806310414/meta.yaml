@@ -1,0 +1,6 @@
+artifact_location: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/../mlruns/997841614806310414
+creation_time: 1712263520148
+experiment_id: '997841614806310414'
+last_update_time: 1712263520148
+lifecycle_stage: active
+name: DecisionTreeClassifier_model
