@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/../mlruns/363105073056923153/64cc2fec1cbd4e28a7565d902fa5b60f/artifacts
+end_time: 1712667173165
+entry_point_name: ''
+experiment_id: '363105073056923153'
+lifecycle_stage: active
+run_id: 64cc2fec1cbd4e28a7565d902fa5b60f
+run_name: secretive-zebra-635
+run_uuid: 64cc2fec1cbd4e28a7565d902fa5b60f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712654654155
+status: 4
+tags: []
+user_id: jeremyrava
