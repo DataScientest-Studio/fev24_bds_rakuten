@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/687155992953640114/70dbece8b27a43aebe73998849877bab/artifacts
+end_time: 1712686061461
+entry_point_name: ''
+experiment_id: '687155992953640114'
+lifecycle_stage: active
+run_id: 70dbece8b27a43aebe73998849877bab
+run_name: rebellious-cow-552
+run_uuid: 70dbece8b27a43aebe73998849877bab
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712674485436
+status: 3
+tags: []
+user_id: jeremyrava

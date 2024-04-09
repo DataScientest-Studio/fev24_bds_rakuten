@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/687155992953640114/7e7778c7bd7d44a7a80f2d93a6e1fb26/artifacts
+end_time: 1712686061461
+entry_point_name: ''
+experiment_id: '687155992953640114'
+lifecycle_stage: active
+run_id: 7e7778c7bd7d44a7a80f2d93a6e1fb26
+run_name: selective-owl-31
+run_uuid: 7e7778c7bd7d44a7a80f2d93a6e1fb26
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712674485436
+status: 3
+tags: []
+user_id: jeremyrava

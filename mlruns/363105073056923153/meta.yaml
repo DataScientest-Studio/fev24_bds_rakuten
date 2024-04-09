@@ -1,6 +1,0 @@
-artifact_location: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/../mlruns/363105073056923153
-creation_time: 1712650856566
-experiment_id: '363105073056923153'
-last_update_time: 1712650856566
-lifecycle_stage: active
-name: XGBClassifier_model
