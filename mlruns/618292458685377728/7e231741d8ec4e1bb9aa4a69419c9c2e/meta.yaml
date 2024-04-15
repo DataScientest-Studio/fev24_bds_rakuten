@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/618292458685377728/7e231741d8ec4e1bb9aa4a69419c9c2e/artifacts
+end_time: 1713191941861
+entry_point_name: ''
+experiment_id: '618292458685377728'
+lifecycle_stage: active
+run_id: 7e231741d8ec4e1bb9aa4a69419c9c2e
+run_name: debonair-lynx-571
+run_uuid: 7e231741d8ec4e1bb9aa4a69419c9c2e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713184610070
+status: 3
+tags: []
+user_id: jeremyrava

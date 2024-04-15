@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/618292458685377728/0f3d81f9e5f64eda946cc948d8634c2d/artifacts
+end_time: 1713197176295
+entry_point_name: ''
+experiment_id: '618292458685377728'
+lifecycle_stage: active
+run_id: 0f3d81f9e5f64eda946cc948d8634c2d
+run_name: aged-shoat-720
+run_uuid: 0f3d81f9e5f64eda946cc948d8634c2d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713193233446
+status: 3
+tags: []
+user_id: jeremyrava
