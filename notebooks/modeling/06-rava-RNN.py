@@ -4,6 +4,7 @@ import string
 import re
 import matplotlib.pyplot as plt
 import mlflow
+import datetime
 
 from sklearn.model_selection import train_test_split
 from sklearn.calibration import LabelEncoder
@@ -29,8 +30,8 @@ SEED = 123
 def run(useMlFlow: bool):
     if useMlFlow:
         mlflow.set_tracking_uri("mlruns")  # "http://127.0.0.1:8080"
-        mlflow.set_experiment(experiment_name="RNN_model")
-        mlflow.autolog(log_datasets=False)
+        mlflow.set_experiment(experiment_name="/RNN_model")
+        mlflow.tensorflow.autolog(log_datasets=False)
 
     df = pd.read_csv("data/raw/x_train.csv", index_col=0)
     df_target = pd.read_csv("data/raw/y_train.csv", index_col=0)
@@ -53,7 +54,7 @@ def run(useMlFlow: bool):
     target = df["prdtypecode"].astype("str")
 
     X_train, X_test, y_train, y_test = train_test_split(
-        data, target, test_size=0.15, random_state=SEED
+        data, target, test_size=0.2, random_state=SEED
     )
 
     X_train = np.expand_dims(X_train, axis=1)
@@ -85,7 +86,7 @@ def run(useMlFlow: bool):
     # median = 320
     # mean = 600
     df["len"] = df["text"].str.len()
-    sequence_length = int(df["len"].quantile(0.10))
+    sequence_length = int(df["len"].quantile(0.50))
     print("sequence_length:", sequence_length)
 
     # Pour libérer de la RAM
@@ -114,10 +115,10 @@ def run(useMlFlow: bool):
         [
             vectorize_layer,
             Embedding(len(vectorize_layer.get_vocabulary()), 64, mask_zero=True),
-            Bidirectional(LSTM(31, return_sequences=True)),
+            Bidirectional(LSTM(64, return_sequences=True)),
             Bidirectional(LSTM(16)),
             Dense(32, activation="relu"),
-            Dropout(0.4),
+            Dropout(0.3),
             Dense(num_classes, activation="softmax"),
         ]
     )
@@ -137,8 +138,8 @@ def run(useMlFlow: bool):
 
     # Callbacks
     early_stopping = EarlyStopping(
-        patience=10,  # Attendre n epochs avant application
-        min_delta=0.005,  # si au bout de n epochs la fonction de perte ne varie pas de n %,
+        patience=2,  # Attendre n epochs avant application
+        min_delta=0.001,  # si au bout de n epochs la fonction de perte ne varie pas de n %,
         # que ce soit à la hausse ou à la baisse, on arrête
         verbose=1,  # Afficher à quel epoch on s'arrête
         mode="min",
@@ -146,25 +147,41 @@ def run(useMlFlow: bool):
     )
     reduce_learning_rate = ReduceLROnPlateau(
         monitor="val_loss",
-        patience=5,  # si val_loss stagne sur n epochs consécutives selon la valeur min_delta
-        min_delta=0.005,
-        factor=0.2,  # On réduit le learning rate d'un facteur n
-        cooldown=3,  # On attend n epochs avant de réitérer
+        patience=2,  # si val_loss stagne sur n epochs consécutives selon la valeur min_delta
+        min_delta=0.01,
+        min_lr=0.00001,
+        factor=0.1,  # On réduit le learning rate d'un facteur n
+        cooldown=2,  # On attend n epochs avant de réitérer
         verbose=1,
     )
 
-    # Train the model
-    training_history = model.fit(
-        X_train,
-        y_train,
-        epochs=30,
-        batch_size=64,
-        validation_data=(X_test, y_test),
-        callbacks=[reduce_learning_rate, early_stopping],
-        class_weight=class_weight_dict,
-    )
-
-    plt_graph(training_history)
+    epochs = 20
+    batch_size = 128 * 2
+    if useMlFlow:
+        with mlflow.start_run() as run:
+            # Train the model
+            training_history = model.fit(
+                X_train,
+                y_train,
+                epochs=epochs,
+                batch_size=batch_size,
+                validation_data=(X_test, y_test),
+                callbacks=[reduce_learning_rate, early_stopping],
+                class_weight=class_weight_dict,
+            )
+            plt_graph(training_history, run)
+    else:
+        # Train the model
+        training_history = model.fit(
+            X_train,
+            y_train,
+            epochs=epochs,
+            batch_size=batch_size,
+            validation_data=(X_test, y_test),
+            callbacks=[reduce_learning_rate, early_stopping],
+            class_weight=class_weight_dict,
+        )
+        plt_graph(training_history, None)
 
 
 def custom_standardization(input_data):
@@ -187,7 +204,7 @@ def custom_standardization(input_data):
     )
 
 
-def plt_graph(training_history):
+def plt_graph(training_history, run=None):
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 6))
 
@@ -230,8 +247,13 @@ def plt_graph(training_history):
     ax2.set_title("Training and Validation Loss")
     ax2.legend()
 
+    if run != None:
+        id_exp = str(run.info.run_id)
+    else:
+        id_exp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
     # Affichage de la figure
-    plt.savefig("reports/figures/training_history_rnn_texts.png")
+    plt.savefig(f"reports/figures/{id_exp}_training_history.png")
 
 
 if __name__ == "__main__":
