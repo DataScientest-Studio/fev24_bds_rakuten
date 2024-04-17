@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/618292458685377728/df1aae31c5194b76a214ebc00fd8d7fa/artifacts
+end_time: 1713262293895
+entry_point_name: ''
+experiment_id: '618292458685377728'
+lifecycle_stage: active
+run_id: df1aae31c5194b76a214ebc00fd8d7fa
+run_name: mercurial-grouse-197
+run_uuid: df1aae31c5194b76a214ebc00fd8d7fa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713259257873
+status: 3
+tags: []
+user_id: jeremyrava

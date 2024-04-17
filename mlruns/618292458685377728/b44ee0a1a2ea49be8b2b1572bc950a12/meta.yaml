@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/618292458685377728/b44ee0a1a2ea49be8b2b1572bc950a12/artifacts
+end_time: 1713270239199
+entry_point_name: ''
+experiment_id: '618292458685377728'
+lifecycle_stage: active
+run_id: b44ee0a1a2ea49be8b2b1572bc950a12
+run_name: learned-snail-571
+run_uuid: b44ee0a1a2ea49be8b2b1572bc950a12
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713266744681
+status: 3
+tags: []
+user_id: jeremyrava
