@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/355990167826216802/ddc3945f6605439d81eb6a7010955d4a/artifacts
+end_time: 1713379753368
+entry_point_name: ''
+experiment_id: '355990167826216802'
+lifecycle_stage: active
+run_id: ddc3945f6605439d81eb6a7010955d4a
+run_name: enchanting-elk-384
+run_uuid: ddc3945f6605439d81eb6a7010955d4a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713377114444
+status: 3
+tags: []
+user_id: jeremyrava

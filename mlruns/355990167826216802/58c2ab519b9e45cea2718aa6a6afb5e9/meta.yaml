@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/355990167826216802/58c2ab519b9e45cea2718aa6a6afb5e9/artifacts
+end_time: 1713375066746
+entry_point_name: ''
+experiment_id: '355990167826216802'
+lifecycle_stage: active
+run_id: 58c2ab519b9e45cea2718aa6a6afb5e9
+run_name: awesome-colt-183
+run_uuid: 58c2ab519b9e45cea2718aa6a6afb5e9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713372924322
+status: 3
+tags: []
+user_id: jeremyrava
