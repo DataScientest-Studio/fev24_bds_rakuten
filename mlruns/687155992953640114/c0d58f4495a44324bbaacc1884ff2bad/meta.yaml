@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/687155992953640114/c0d58f4495a44324bbaacc1884ff2bad/artifacts
+end_time: 1712686061533
+entry_point_name: ''
+experiment_id: '687155992953640114'
+lifecycle_stage: active
+run_id: c0d58f4495a44324bbaacc1884ff2bad
+run_name: valuable-deer-579
+run_uuid: c0d58f4495a44324bbaacc1884ff2bad
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712674485436
+status: 3
+tags: []
+user_id: jeremyrava
