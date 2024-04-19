@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/355990167826216802/cee26adf8b1d44568f725ee543d62d40/artifacts
+end_time: 1713371931013
+entry_point_name: ''
+experiment_id: '355990167826216802'
+lifecycle_stage: active
+run_id: cee26adf8b1d44568f725ee543d62d40
+run_name: efficient-chimp-497
+run_uuid: cee26adf8b1d44568f725ee543d62d40
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713371602003
+status: 3
+tags: []
+user_id: jeremyrava

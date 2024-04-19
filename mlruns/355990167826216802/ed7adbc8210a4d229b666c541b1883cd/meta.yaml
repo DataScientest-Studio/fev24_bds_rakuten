@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/355990167826216802/ed7adbc8210a4d229b666c541b1883cd/artifacts
+end_time: 1713370759693
+entry_point_name: ''
+experiment_id: '355990167826216802'
+lifecycle_stage: active
+run_id: ed7adbc8210a4d229b666c541b1883cd
+run_name: tasteful-shad-851
+run_uuid: ed7adbc8210a4d229b666c541b1883cd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713370209110
+status: 3
+tags: []
+user_id: jeremyrava

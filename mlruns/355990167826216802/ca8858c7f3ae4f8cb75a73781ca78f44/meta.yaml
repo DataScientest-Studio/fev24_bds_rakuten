@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/355990167826216802/ca8858c7f3ae4f8cb75a73781ca78f44/artifacts
+end_time: 1713475942150
+entry_point_name: ''
+experiment_id: '355990167826216802'
+lifecycle_stage: active
+run_id: ca8858c7f3ae4f8cb75a73781ca78f44
+run_name: righteous-stork-240
+run_uuid: ca8858c7f3ae4f8cb75a73781ca78f44
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713473330759
+status: 3
+tags: []
+user_id: jeremyrava

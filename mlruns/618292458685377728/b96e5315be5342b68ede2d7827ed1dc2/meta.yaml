@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/618292458685377728/b96e5315be5342b68ede2d7827ed1dc2/artifacts
+end_time: 1713296652935
+entry_point_name: ''
+experiment_id: '618292458685377728'
+lifecycle_stage: active
+run_id: b96e5315be5342b68ede2d7827ed1dc2
+run_name: suave-goose-349
+run_uuid: b96e5315be5342b68ede2d7827ed1dc2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713293475348
+status: 3
+tags: []
+user_id: jeremyrava

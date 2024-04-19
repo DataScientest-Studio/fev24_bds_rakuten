@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/355990167826216802/e87c3e1cf8114426bf8a4db8bad4c349/artifacts
+end_time: 1713469697333
+entry_point_name: ''
+experiment_id: '355990167826216802'
+lifecycle_stage: active
+run_id: e87c3e1cf8114426bf8a4db8bad4c349
+run_name: bald-crow-750
+run_uuid: e87c3e1cf8114426bf8a4db8bad4c349
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713466636921
+status: 3
+tags: []
+user_id: jeremyrava

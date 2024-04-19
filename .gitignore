@@ -166,7 +166,13 @@ cython_debug/
 .vscode/
 
 # Data folder
-data/
+/data
 
 # MLFlow
 /mlruns/.trash
+/mlruns/**/tags
+/mlruns/**/params
+/mlruns/**/metrics
+/mlruns/**/checkpoints
+/mlruns/**/tensorboard_logs
+/mlruns/**/data

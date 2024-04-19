@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/355990167826216802/ac60ca9071564725bb0da411eb97a133/artifacts
+end_time: 1713368754814
+entry_point_name: ''
+experiment_id: '355990167826216802'
+lifecycle_stage: active
+run_id: ac60ca9071564725bb0da411eb97a133
+run_name: masked-fox-546
+run_uuid: ac60ca9071564725bb0da411eb97a133
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713368579526
+status: 3
+tags: []
+user_id: jeremyrava

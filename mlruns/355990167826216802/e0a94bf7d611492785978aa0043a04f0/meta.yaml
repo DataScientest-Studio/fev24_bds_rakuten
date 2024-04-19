@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/355990167826216802/e0a94bf7d611492785978aa0043a04f0/artifacts
+end_time: 1713372617503
+entry_point_name: ''
+experiment_id: '355990167826216802'
+lifecycle_stage: active
+run_id: e0a94bf7d611492785978aa0043a04f0
+run_name: bald-bass-435
+run_uuid: e0a94bf7d611492785978aa0043a04f0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713372063143
+status: 3
+tags: []
+user_id: jeremyrava

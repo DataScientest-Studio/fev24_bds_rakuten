@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/618292458685377728/31f7214b23b0437e956d44c72b79ba57/artifacts
+end_time: 1713291995035
+entry_point_name: ''
+experiment_id: '618292458685377728'
+lifecycle_stage: active
+run_id: 31f7214b23b0437e956d44c72b79ba57
+run_name: chill-ox-33
+run_uuid: 31f7214b23b0437e956d44c72b79ba57
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713286285862
+status: 3
+tags: []
+user_id: jeremyrava

@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/618292458685377728/89066ddd25a5484696b3cbfbcabe08c2/artifacts
+end_time: 1713258504187
+entry_point_name: ''
+experiment_id: '618292458685377728'
+lifecycle_stage: active
+run_id: 89066ddd25a5484696b3cbfbcabe08c2
+run_name: ambitious-turtle-123
+run_uuid: 89066ddd25a5484696b3cbfbcabe08c2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713253320848
+status: 3
+tags: []
+user_id: jeremyrava
