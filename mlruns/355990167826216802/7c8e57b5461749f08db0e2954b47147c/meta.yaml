@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/355990167826216802/7c8e57b5461749f08db0e2954b47147c/artifacts
+end_time: 1713472325752
+entry_point_name: ''
+experiment_id: '355990167826216802'
+lifecycle_stage: active
+run_id: 7c8e57b5461749f08db0e2954b47147c
+run_name: magnificent-gull-411
+run_uuid: 7c8e57b5461749f08db0e2954b47147c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713469766037
+status: 3
+tags: []
+user_id: jeremyrava

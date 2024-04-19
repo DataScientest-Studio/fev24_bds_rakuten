@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/mlruns/355990167826216802/9369a2a946994b698d6db9f93f0f55b7/artifacts
+end_time: 1713385744764
+entry_point_name: ''
+experiment_id: '355990167826216802'
+lifecycle_stage: active
+run_id: 9369a2a946994b698d6db9f93f0f55b7
+run_name: carefree-panda-482
+run_uuid: 9369a2a946994b698d6db9f93f0f55b7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1713382954311
+status: 3
+tags: []
+user_id: jeremyrava

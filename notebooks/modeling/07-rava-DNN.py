@@ -186,7 +186,7 @@ def run(useMlFlow: bool):
         [
             vectorize_layer,
             Embedding(len(vectorize_layer.get_vocabulary()), 200, mask_zero=True),
-            Dense(96, activation="relu"),
+            Dense(64, activation="relu"),
             GlobalAveragePooling1D(),
             Dropout(0.5),
             Dense(num_classes, activation="softmax"),
@@ -219,12 +219,11 @@ def run(useMlFlow: bool):
     reduce_learning_rate = ReduceLROnPlateau(
         monitor="val_loss",
         patience=2,  # si val_loss stagne sur n epochs consécutives selon la valeur min_delta
-        min_delta=0.01,
+        min_delta=0.005,
         min_lr=0.00001,
         factor=0.1,  # On réduit le learning rate d'un facteur n
         cooldown=2,  # On attend n epochs avant de réitérer
         verbose=1,
-        start_from_epoch=10,
     )
 
     epochs = 20
