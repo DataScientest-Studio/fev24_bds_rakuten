@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/382622027855486375/450ab4b0ecb544f9b2adb4a8dfd51cc8/artifacts
+end_time: 1714483955806
+entry_point_name: ''
+experiment_id: '382622027855486375'
+lifecycle_stage: active
+run_id: 450ab4b0ecb544f9b2adb4a8dfd51cc8
+run_name: auspicious-bug-489
+run_uuid: 450ab4b0ecb544f9b2adb4a8dfd51cc8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1714479535103
+status: 3
+tags: []
+user_id: jeremyrava

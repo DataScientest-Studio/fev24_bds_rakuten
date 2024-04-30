@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/382622027855486375/efbc34a6fe754c53954d428d763047a8/artifacts
+end_time: 1714427213243
+entry_point_name: ''
+experiment_id: '382622027855486375'
+lifecycle_stage: active
+run_id: efbc34a6fe754c53954d428d763047a8
+run_name: charming-lynx-720
+run_uuid: efbc34a6fe754c53954d428d763047a8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1714418172864
+status: 3
+tags: []
+user_id: jeremyrava
