@@ -146,11 +146,30 @@ if page == pages[0]:
         df["designation"].astype(str),
         df["designation"].astype(str) + " " + df["description"].astype(str),
     )
-    fig1, ax = plt.subplots(figsize=(10, 3))
+    fig, ax = plt.subplots(figsize=(10, 2))
     ax.boxplot(df["text"].str.len(), vert=False)
     ax.set_xlabel("Nombre de charactères")
     ax.set_title(f"Distribution du nombre de charactères sur la totalité")
-    st.write(fig1)
+    st.write(fig)
+
+    col1, col2 = st.columns(2)
+
+    target = st.session_state.y_train_df["prdtypecode"].astype("str")
+    fig1, ax1 = plt.subplots(figsize=(10, 4))
+    target.value_counts(sort=True).plot(kind="bar", ax=ax1)
+    ax1.set_xlabel("Type de produit")
+    ax1.set_ylabel("Nombre de produits")
+    ax1.set_title("Répartition des types de produit")
+    col1.write(fig1)
+    target = st.session_state.y_train_df["prdtypecode"].astype("str")
+    fig11, ax11 = plt.subplots(figsize=(10, 4))
+    target.value_counts(sort=True, normalize=True).plot(kind="bar", ax=ax11)
+    ax11.set_xlabel("Type de produit")
+    ax11.set_ylabel("Pourcentage")
+    ax11.set_title("Répartition des types de produit")
+    col2.write(fig11)
+
+    st.write("### Prétraitement des données")
 
     preprocessing = st.radio(
         "Prétraitement des données :",

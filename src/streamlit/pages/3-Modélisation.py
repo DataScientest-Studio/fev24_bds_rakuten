@@ -45,7 +45,7 @@ if page == pages[0]:
 else:
     st.write("## Quelques modèles")
     type_data = st.selectbox(
-        "Choix du type de données d'entrée", ["Texte", "Image", "Texte & image"]
+        "Choix du type de données d'entrée :", ["Texte", "Image", "Texte & image"]
     )
     if type_data == "Texte":
         options_models = ["DNN", "MultinomialNB", "RNN", "XGBoost"]
@@ -53,5 +53,5 @@ else:
         options_models = ["Modèle 1", "Modèle 2", "Modèle 3"]
     else:
         options_models = ["Multimodale", "Voting classifier"]
-    modele = st.selectbox("Choix du modèle", options_models)
+    modele = st.selectbox("Choix du modèle :", options_models)
     st.write(modele)
