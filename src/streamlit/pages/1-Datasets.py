@@ -35,7 +35,7 @@ st.sidebar.info(
 st.sidebar.progress(1 / 5)
 
 # MAIN PAGE
-
+st.title(":blue[DATASETS]")
 st.write("## Introduction")
 st.write(
     "Le projet utilise des données provenant d'un défi organisé pour des data scientists, hébergées sur le site challengedataens et fournies par le Rakuten Institute of Technology."
@@ -51,8 +51,9 @@ if "y_train_df" not in st.session_state:
     )
 
 if page == pages[0]:
+    cols = ["designation", "description", "productid", "imageid"]
     st.write("## Données d'entrée | `X_train ou X_test`")
-    st.dataframe(st.session_state.X_train_df.head(), use_container_width=True)
+    st.dataframe(st.session_state.X_train_df[cols].head(), use_container_width=True)
 
     cols = st.columns(5)
     for index, col in st.session_state.X_train_df.head().iterrows():

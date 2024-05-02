@@ -41,6 +41,6 @@ st.write(
 st.write("## Objectifs")
 st.write("#### Lors de ce projet, nos objectifs étaient les suivants :")
 st.write(
-    """- Entrainer des modèles de deep learning sur des données de type texte et image
+    """- Entrainer des modèles de machine learning et de deep learning sur des données de type texte et image
 - Déterminer le meilleur modèle afin de prédire la catégorie d'un produit"""
 )

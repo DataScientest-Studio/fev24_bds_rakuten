@@ -27,5 +27,7 @@ st.sidebar.info(
 )
 st.sidebar.progress(5 / 5)
 
+# MAIN PAGE
+st.title(":blue[CONCLUSION]")
 
 st.balloons()

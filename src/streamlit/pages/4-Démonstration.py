@@ -26,3 +26,6 @@ st.sidebar.info(
 """,
 )
 st.sidebar.progress(4 / 5)
+
+# MAIN PAGE
+st.title(":blue[DÉMONSTRATION]")

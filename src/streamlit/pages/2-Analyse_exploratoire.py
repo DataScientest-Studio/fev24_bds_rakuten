@@ -13,24 +13,26 @@ FIGSIZE = (16, 8)
 
 
 def create_word_cloud(preprocessing, target, code):
-    st.write(preprocessing)
     col_target = "text"
     if preprocessing == "Sans":
-        df = st.session_state.X_train_df
+        df = st.session_state.X_train_df.copy()
         # Join texts
-        df["text"] = df["designation"].astype(str) + " " + df["description"].astype(str)
-        df["text"] = df["text"].fillna(df["designation"].astype(str))
+        df["text"] = np.where(
+            df["description"].isna(),
+            df["designation"].astype(str),
+            df["designation"].astype(str) + " " + df["description"].astype(str),
+        )
         df["prdtypecode"] = target
         stopwords = []
     elif preprocessing == "Faible":
-        df = st.session_state.X_train_preprocessed_df
+        df = st.session_state.X_train_preprocessed_df.copy()
         stopwords = []
     elif preprocessing == "Moyen":
-        df = st.session_state.X_train_preprocessed_df
+        df = st.session_state.X_train_preprocessed_df.copy()
         stopwords = st.session_state.stop_words
     else:
         col_target = "lemmes"
-        df = st.session_state.X_train_preprocessed_df
+        df = st.session_state.X_train_preprocessed_df.copy()
         stopwords = st.session_state.stop_words
 
     # Process each unique prdtypecode
@@ -52,7 +54,9 @@ def create_word_cloud(preprocessing, target, code):
 
     # Set up the subplot for bar plot and word cloud
     fig, axs = plt.subplots(1, 2, figsize=FIGSIZE)
-    fig.suptitle(f"Most frequent words (without cleaning) of prdtypecode: {code}")
+    fig.suptitle(
+        f"Mots les plus fréquents sur prdtypecode: {code} avec traitement: {preprocessing}"
+    )
 
     # Bar plot
     n_words = 30
@@ -80,10 +84,10 @@ def create_word_cloud(preprocessing, target, code):
 
 # SIDEBAR
 pages = [
-    "les données textes",
-    "les données images",
+    "textes",
+    "images",
 ]
-page = st.sidebar.radio("Explorer sur :", pages)
+page = st.sidebar.radio("Explorer les données :", pages)
 
 # Pour descendre la suite
 st.sidebar.markdown(
@@ -109,6 +113,10 @@ st.sidebar.info(
 )
 st.sidebar.progress(2 / 5)
 
+# MAIN PAGE
+st.title(f":blue[ANALYSE EXPLORATOIRE]")
+st.write(f"## Les données : `{page}`")
+
 if "X_train_df" not in st.session_state:
     st.session_state.X_train_df = pd.read_csv(
         f"{ROOT}data/raw/x_train.csv", index_col=0
@@ -131,6 +139,18 @@ if "stop_words" not in st.session_state:
     st.session_state.stop_words = stop_words
 
 if page == pages[0]:
+    df = st.session_state.X_train_df.copy()
+    df["text"] = np.where(
+        df["description"].isna(),
+        df["designation"].astype(str),
+        df["designation"].astype(str) + " " + df["description"].astype(str),
+    )
+    fig1, ax = plt.subplots(figsize=(10, 3))
+    ax.boxplot(df["text"].str.len(), vert=False)
+    ax.set_xlabel("Nombre de charactères")
+    ax.set_title(f"Distribution du nombre de charactères sur la totalité")
+    st.write(fig1)
+
     preprocessing = st.radio(
         "Prétraitement des données :",
         ["Sans", "Faible", "Moyen", "Fort"],
