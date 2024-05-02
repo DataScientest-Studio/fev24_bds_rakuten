@@ -9,9 +9,6 @@ import matplotlib.pyplot as plt
 ROOT = "../../"
 
 
-FIGSIZE = (16, 8)
-
-
 def create_word_cloud(preprocessing, target, code):
     col_target = "text"
     if preprocessing == "Sans":
@@ -44,7 +41,6 @@ def create_word_cloud(preprocessing, target, code):
             [word for word in x.split() if word.lower() not in stopwords]
         )
     )
-    st.dataframe(code_df[col_target].head(), width=1000)
 
     total_text = " ".join(code_df[col_target])
     word_counts = Counter(total_text.split())
@@ -52,20 +48,9 @@ def create_word_cloud(preprocessing, target, code):
     # Sort the word counts in descending order
     word_counts = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
 
-    # Set up the subplot for bar plot and word cloud
-    fig, axs = plt.subplots(1, 2, figsize=FIGSIZE)
-    fig.suptitle(
-        f"Mots les plus fréquents sur prdtypecode: {code} avec traitement: {preprocessing}"
-    )
-
-    # Bar plot
-    n_words = 30
-    axs[0].bar(
-        list(zip(*word_counts))[0][:n_words],
-        list(zip(*word_counts))[1][:n_words],
-    )
-    axs[0].tick_params(axis="x", rotation=90)
-
+    # PLOTS
+    # WORDCLOUD
+    fig2, ax2 = plt.subplots(figsize=(10, 5))
     # Word cloud
     wordcloud = WordCloud(
         background_color="white",
@@ -75,11 +60,27 @@ def create_word_cloud(preprocessing, target, code):
         collocations=False,
         stopwords=stopwords,
     ).generate(total_text)
-    axs[1].imshow(wordcloud, interpolation="bilinear")
-    axs[1].axis("off")
-
+    ax2.imshow(wordcloud, interpolation="bilinear")
+    ax2.axis("off")
+    ax2.set_title(
+        f"Mots les plus fréquents sur prdtypecode: {code} avec traitement: {preprocessing}"
+    )
     plt.tight_layout(rect=[0, 0, 1, 0.96])
-    st.write(fig)
+    st.write(fig2)
+
+    col1, col2 = st.columns(2)
+
+    # Bar plot
+    n_words = 10
+    fig3, ax3 = plt.subplots(figsize=(3, 2))
+    ax3.bar(
+        list(zip(*word_counts))[0][:n_words],
+        list(zip(*word_counts))[1][:n_words],
+    )
+    ax3.tick_params(axis="x", rotation=90)
+    col1.write(fig3)
+
+    col2.dataframe(code_df[col_target].head(), width=1000)
 
 
 # SIDEBAR
