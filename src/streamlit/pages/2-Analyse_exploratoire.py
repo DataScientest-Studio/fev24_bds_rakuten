@@ -11,7 +11,7 @@ ROOT = "../../"
 
 def create_word_cloud(preprocessing, target, code):
     col_target = "text"
-    if preprocessing == "Sans":
+    if preprocessing == "0 - Sans":
         df = st.session_state.X_train_df.copy()
         # Join texts
         df["text"] = np.where(
@@ -21,10 +21,10 @@ def create_word_cloud(preprocessing, target, code):
         )
         df["prdtypecode"] = target
         stopwords = []
-    elif preprocessing == "Faible":
+    elif preprocessing == "1 - Ponctuation, décodage HTML":
         df = st.session_state.X_train_preprocessed_df.copy()
         stopwords = []
-    elif preprocessing == "Moyen":
+    elif preprocessing == "2 - Traduction, regex charactères spéciaux":
         df = st.session_state.X_train_preprocessed_df.copy()
         stopwords = st.session_state.stop_words
     else:
@@ -50,7 +50,7 @@ def create_word_cloud(preprocessing, target, code):
 
     # PLOTS
     # WORDCLOUD
-    fig2, ax2 = plt.subplots(figsize=(10, 5))
+    fig2, ax2 = plt.subplots()
     # Word cloud
     wordcloud = WordCloud(
         background_color="white",
@@ -154,7 +154,12 @@ if page == pages[0]:
 
     preprocessing = st.radio(
         "Prétraitement des données :",
-        ["Sans", "Faible", "Moyen", "Fort"],
+        [
+            "0 - Sans",
+            "1 - Ponctuation, décodage HTML",
+            "2 - Traduction, regex charactères spéciaux",
+            "3 - Lemmatisation",
+        ],
         horizontal=True,
     )
 
