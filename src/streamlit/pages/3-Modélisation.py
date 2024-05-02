@@ -1,5 +1,7 @@
 import streamlit as st
 
+ROOT = "../../"
+
 # SIDEBAR
 pages = [
     "la stratégie",
@@ -41,6 +43,11 @@ if page == pages[0]:
     st.write("## Stratégie")
     st.write(
         """Dans un premier temps, les :blue[**données textuelles**] ont été utilisées pour la modélisation, avec des résultats obtenus rapidement et facilement. Ensuite, des :blue[**modèles sur les données image**] ont été développés, en raison de leur complexité et de leur poids. Cette :blue[**dichotomie entre modèles textes et images**] sera conservée dans la stratégie de modélisation, avec la définition de :blue[**modèles champions**] pour chaque catégorie de données d'entrée. Enfin, des :blue[**modèles combinant les résultats**] des modèles champions seront utilisés pour optimiser les performances (Voting Classifier, stacking, bagging, ...)."""
+    )
+    st.image(
+        f"{ROOT}reports/all_modeles_results.png",
+        use_column_width=True,
+        caption="Grille des modèles",
     )
 else:
     st.write("## Quelques modèles")

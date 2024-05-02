@@ -77,11 +77,11 @@ elif page == pages[1]:
 
 else:
     st.write("## Relations entre les données")
-    relation_image_path = f"{ROOT}reports/Relations_Datasets.jpg"
-    image = open(relation_image_path, "rb").read()
-
-    # Afficher l'image
-    st.image(image, caption="relations entre les datasets", use_column_width=True)
+    st.image(
+        f"{ROOT}reports/Relations_Datasets.jpg",
+        caption="Relations entre les datasets",
+        use_column_width=True,
+    )
     st.write(
         "Les deux datasets csv sont liés entre eux grace aux index des deux tables x_train et y_train. Les features images sont liées aux données texte via les valeurs imageid et productid qui sont dans le nom des fichiers et dans les données de X_train. A ce titre X_train fait office de table pivot de tous les datasets."
     )
