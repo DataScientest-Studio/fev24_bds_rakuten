@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/901345814311324538/f75bd40144b146a2be6f45d1f491fa18/artifacts
+end_time: 1714673369950
+entry_point_name: ''
+experiment_id: '901345814311324538'
+lifecycle_stage: active
+run_id: f75bd40144b146a2be6f45d1f491fa18
+run_name: rogue-bee-833
+run_uuid: f75bd40144b146a2be6f45d1f491fa18
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1714673358110
+status: 3
+tags: []
+user_id: jeremyrava

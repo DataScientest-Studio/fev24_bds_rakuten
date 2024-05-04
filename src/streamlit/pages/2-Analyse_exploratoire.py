@@ -1,11 +1,15 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import os
+import cv2
+import random
+from PIL import Image
 from tqdm import tqdm
 from collections import Counter
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-import cv2
+
 
 ROOT = "../../"
 
@@ -25,7 +29,7 @@ def create_word_cloud(preprocessing, target, code):
     elif preprocessing == "1 - Ponctuation, décodage HTML":
         df = st.session_state.X_train_preprocessed_df.copy()
         stopwords = []
-    elif preprocessing == "2 - Traduction, regex charactères spéciaux":
+    elif preprocessing == "2 - Traduction, regex charactères spéciaux, stopwords":
         df = st.session_state.X_train_preprocessed_df.copy()
         stopwords = st.session_state.stop_words
     else:
@@ -165,9 +169,8 @@ def crop_the_image(data):
     result_rgb = cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
     crop_rgb = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2RGB)
     image_redim_rgb = cv2.cvtColor(image_redim, cv2.COLOR_BGR2RGB)
-    image_redim2_rgb = cv2.cvtColor(image_redim2, cv2.COLOR_BGR2RGB)
 
-    fig, axes = plt.subplots(1, 5, figsize=(15, 10))
+    fig, axes = plt.subplots(1, 4, figsize=(15, 10))
 
     # Afficher l'image d'origine
     axes[0].imshow(image_rgb)
@@ -176,38 +179,98 @@ def crop_the_image(data):
 
     # Afficher l'image segmentée
     axes[1].imshow(result_rgb)
-    axes[1].set_title("Segmentation\n({0} pixels)".format(nb_pixels_apres))
+    axes[1].set_title("Image Segmentée\n({0} pixels)".format(nb_pixels_apres))
     axes[1].axis("off")
 
     # Afficher l'image redimensionnée
     axes[2].imshow(crop_rgb)
-    axes[2].set_title("Crop\n({0} pixels)".format(nb_pixels_apres2))
+    axes[2].set_title("Image Détourée\n({0} pixels)".format(nb_pixels_apres2))
     axes[2].axis("off")
 
     # Afficher l'image zoomée
     axes[3].imshow(image_redim_rgb)
-    axes[3].set_title("Zoom ss prop\n({0} pixels)".format(nb_pixels_apres3))
+    axes[3].set_title("Image Redimensionnée\n({0} pixels)".format(nb_pixels_apres3))
     axes[3].axis("off")
-
-    # Afficher l'image zoomée en conservant les proportions
-    axes[4].imshow(image_redim2_rgb)
-    axes[4].set_title("Zoom avec prop\n({0} pixels)".format(nb_pixels_apres4))
-    axes[4].axis("off")
 
     st.write(fig)
 
 
+def appliquer_filtre(data, filtre):
+    # Appliquer le filtre sélectionné et retourner le résultat
+    path = f"{ROOT}data/raw/images/image_train/image_{data['imageid']}_product_{data['productid']}.jpg"
+    # Charger l'image en niveaux de gris
+    image_a_filtrer = cv2.imread(path)
+    gray = cv2.cvtColor(image_a_filtrer, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    if filtre == "Filtre de Sobel":
+        sobel_x = cv2.Sobel(blurred, cv2.CV_64F, 1, 0, ksize=5)
+        sobel_y = cv2.Sobel(blurred, cv2.CV_64F, 0, 1, ksize=5)
+        sobel = np.sqrt(sobel_x**2 + sobel_y**2)
+        image_filtree = cv2.cvtColor(cv2.convertScaleAbs(sobel), cv2.COLOR_GRAY2RGB)
+    elif filtre == "Filtre de Roberts":
+        roberts_cross_v = cv2.filter2D(blurred, -1, np.array([[-1, 0], [0, 1]]))
+        roberts_cross_h = cv2.filter2D(blurred, -1, np.array([[0, -1], [1, 0]]))
+        roberts_cross = cv2.addWeighted(roberts_cross_v, 0.5, roberts_cross_h, 0.5, 0)
+        image_filtree = cv2.cvtColor(
+            cv2.convertScaleAbs(roberts_cross), cv2.COLOR_GRAY2RGB
+        )
+    elif filtre == "Filtre de Prewitt":
+        kernelx = cv2.getDerivKernels(1, 0, 3)
+        kernely = cv2.getDerivKernels(0, 1, 3)
+        prewitt_x = cv2.filter2D(blurred, -1, kernelx[0] * kernelx[1].T)
+        prewitt_y = cv2.filter2D(blurred, -1, kernely[0] * kernely[1].T)
+        prewitt_cross = cv2.addWeighted(prewitt_x, 0.5, prewitt_y, 0.5, 0)
+        image_filtree = cv2.cvtColor(
+            cv2.convertScaleAbs(prewitt_cross), cv2.COLOR_GRAY2RGB
+        )
+    elif filtre == "Filtre de Laplace":
+        laplacian = cv2.Laplacian(blurred, cv2.CV_64F)
+        image_filtree = cv2.cvtColor(cv2.convertScaleAbs(laplacian), cv2.COLOR_GRAY2RGB)
+    elif filtre == "Filtre de Canny":
+        edges = cv2.Canny(blurred, 70, 255)
+        image_filtree = cv2.cvtColor(cv2.convertScaleAbs(edges), cv2.COLOR_GRAY2RGB)
+    elif filtre == "Seuil adaptatif":
+        adaptive_thresh = cv2.adaptiveThreshold(
+            gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2
+        )
+        image_filtree = cv2.cvtColor(
+            cv2.convertScaleAbs(adaptive_thresh), cv2.COLOR_GRAY2RGB
+        )
+    else:
+        image_filtree = cv2.cvtColor(image_a_filtrer, cv2.COLOR_BGR2RGB)
+    return image_filtree
+
+
+def afficher_images_en_ligne(images, nbcol):
+    """Afficher les images
+
+    Args:
+        images (_type_): _description_
+        nbcol (_type_): _description_
+    """
+    img_count = len(images)
+    row_count = img_count // nbcol + (
+        1 if img_count % nbcol != 0 else 0
+    )  # Calcul du nombre de lignes
+    for i in range(row_count):
+        cols = st.columns(nbcol)  # Création de colonnes
+        for j in range(nbcol):
+            index = i * nbcol + j
+            if index < img_count:
+                chemin_image = os.path.join(chemin_images, images[index])
+                cols[j].image(
+                    chemin_image, width=100, use_column_width=False
+                )  # Affichage de l'image dans la colonne avec une largeur de 100 pixels
+
+
 # SIDEBAR
-pages = [
-    "textes",
-    "images",
-]
+pages = ["Features : textes", "Features : images", "Target : Classe de Produits"]
 page = st.sidebar.radio("Explorer les données :", pages)
 
 # Pour descendre la suite
 st.sidebar.markdown(
-    """# 
-##### 
+    """
+#### 
 # """
 )
 st.sidebar.info(
@@ -265,24 +328,6 @@ if page == pages[0]:
     ax.set_xlabel("Nombre de charactères")
     ax.set_title(f"Distribution du nombre de charactères sur designation + description")
     st.write(fig)
-
-    col1, col2 = st.columns(2)
-
-    target = st.session_state.y_train_df["prdtypecode"].astype("str")
-    fig1, ax1 = plt.subplots(figsize=(10, 4))
-    target.value_counts(sort=True).plot(kind="bar", ax=ax1)
-    ax1.set_xlabel("Type de produit")
-    ax1.set_ylabel("Nombre de produits")
-    ax1.set_title("Répartition des types de produit")
-    col1.write(fig1)
-    target = st.session_state.y_train_df["prdtypecode"].astype("str")
-    fig11, ax11 = plt.subplots(figsize=(10, 4))
-    target.value_counts(sort=True, normalize=True).plot(kind="bar", ax=ax11)
-    ax11.set_xlabel("Type de produit")
-    ax11.set_ylabel("Pourcentage")
-    ax11.set_title("Répartition des types de produit")
-    col2.write(fig11)
-
     st.write("### Prétraitement des données")
 
     preprocessing = st.radio(
@@ -290,7 +335,7 @@ if page == pages[0]:
         [
             "0 - Sans",
             "1 - Ponctuation, décodage HTML",
-            "2 - Traduction, regex charactères spéciaux",
+            "2 - Traduction, regex charactères spéciaux, stopwords",
             "3 - Lemmatisation",
         ],
         horizontal=True,
@@ -304,28 +349,93 @@ if page == pages[0]:
 
     create_word_cloud(preprocessing, st.session_state.y_train_df, code)
 
-else:
+elif page == pages[1]:
+    chemin_images = f"{ROOT}data/raw/images/image_train"
+
+    # Nombre d'images à afficher
+    nombre_images_a_afficher = 32
+    images_selectionnees = random.sample(
+        os.listdir(chemin_images), nombre_images_a_afficher
+    )
+
+    # Affichage des images en ligne avec une taille réduite et des polices de taille réduite
+    afficher_images_en_ligne(images_selectionnees, 8)
+    st.write("Proportion d'images 500x500 : :blue[**98.924%**]")
     st.write(
-        """Après avoir analysé les images du dataset, il a été constaté que la majorité des images ont une taille de :blue[**500 x 500 pixels**] (98,9% du dataset). Il semble que :blue[**Rakuten ait normalisé les images**] en ajoutant un contour blanc pour atteindre la taille de 500 x 500 pixels."""
+        "La quasi totalité des images comporte une dimension de 500 x 500 alors qu'une observation d'un échantillon d'images ne le laisse pas supposer. Les images semblent donc avoir des :blue[**contours blancs**]."
     )
     st.write(
-        """Une opération de :blue[**détourage (cropping)**] a été réalisée pour supprimer les contours blancs et les fonds d'image sans intérêt. Après le cropping, les tailles réelles des images étaient différentes des 500 x 500 initiaux."""
+        "Il est donc nécessaire de :blue[**détourer les zones d'intérêt**] des images et les :blue[**redimensionner**]. Pour cela, nous allons utiliser plusieurs filtres pour définir les bords des images."
     )
+
     i = st.slider(
         "Selectionner l'index du produit :",
         0,
-        st.session_state.X_train_df.shape[0],
+        st.session_state.X_train_df.shape[0] - 1,
         0,
         1,
     )
-    crop_the_image(st.session_state.X_train_df.iloc[i])
-    st.image(
-        f"{ROOT}reports/tailles_images_apres_detourage.png",
-        caption="Dimension des images après détourage (Hauteur x Largeur)",
-        use_column_width=True,
+
+    # Appliquer le filtre sélectionné et afficher le résultat
+    image_originale = appliquer_filtre(
+        st.session_state.X_train_df.iloc[i - 1], "Origin"
     )
-    st.image(
-        f"{ROOT}reports/dist_n_pixels_apres_detourage_prdtypecode.png",
-        caption="Distribution du nombre de pixels après détourage par type de produit",
-        use_column_width=True,
+    image_filtree_sobel = appliquer_filtre(
+        st.session_state.X_train_df.iloc[i - 1], "Filtre de Sobel"
+    )
+    image_filtree_rober = appliquer_filtre(
+        st.session_state.X_train_df.iloc[i - 1], "Filtre de Roberts"
+    )
+    image_filtree_prewi = appliquer_filtre(
+        st.session_state.X_train_df.iloc[i - 1], "Filtre de Prewitt"
+    )
+    image_filtree_lapla = appliquer_filtre(
+        st.session_state.X_train_df.iloc[i - 1], "Filtre de Laplace"
+    )
+    image_filtree_canny = appliquer_filtre(
+        st.session_state.X_train_df.iloc[i - 1], "Filtre de Canny"
+    )
+    image_filtree_adapt = appliquer_filtre(
+        st.session_state.X_train_df.iloc[i - 1], "Seuil adaptatif"
+    )
+
+    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+    col1.image(image_originale, caption="Image originale", use_column_width=True)
+    col2.image(image_filtree_sobel, caption="Filtre de Sobel", use_column_width=True)
+    col3.image(image_filtree_rober, caption="Filtre de Roberts", use_column_width=True)
+    col4.image(image_filtree_prewi, caption="Filtre de Prewitt", use_column_width=True)
+    col5.image(image_filtree_lapla, caption="Filtre de Laplace", use_column_width=True)
+    col6.image(image_filtree_canny, caption="Filtre de Canny", use_column_width=True)
+    col7.image(image_filtree_adapt, caption="Seuil adaptatif", use_column_width=True)
+
+    st.write(
+        "Tous les filtres testés nous permettent non seulement d':blue[**évincer les bords blancs**] de nos images mais également d':blue[**évincer l'arrière plan**] des images et donc de :blue[**concentrer l'analyse sur le premier plan**]."
+    )
+    st.write(
+        "Après de nombreuses expérimentations nous avons choisi d'utiliser le filtre de :blue[**Prewitt**]. Après avoir détouré les images, nous les redimensionnons en 500 x 500 en étirant si besoin l'image détourée."
+    )
+
+    crop_the_image(st.session_state.X_train_df.iloc[i - 1])
+
+elif page == pages[2]:
+    target = st.session_state.y_train_df["prdtypecode"].astype("str")
+    fig1, ax1 = plt.subplots(figsize=(10, 4))
+    target.value_counts(sort=True).plot(kind="bar", ax=ax1)
+    ax1.set_xlabel("Type de produit")
+    ax1.set_ylabel("Nombre de produits")
+    ax1.set_title("Répartition des types de produit")
+    st.write(fig1)
+    target = st.session_state.y_train_df["prdtypecode"].astype("str")
+    fig11, ax11 = plt.subplots(figsize=(10, 4))
+    target.value_counts(sort=True, normalize=True).plot(kind="bar", ax=ax11)
+    ax11.set_xlabel("Type de produit")
+    ax11.set_ylabel("Pourcentage")
+    ax11.set_title("Répartition des types de produit")
+    st.write(fig11)
+
+    st.write(
+        "La Target comporte une distribution en 27 classes :blue[**fortement deséquilibrée**] avec certaines classes comportant plus de 10 fois moins d'observations que d'autres."
+    )
+    st.write(
+        "Cette constatation va nous aiguiller sur des :blue[**techniques de reéchantillonnage**] (undersampling, oversampling SMOTE, datageneration pour les images) afin d'éviter que nos modèles connaissent des phénomènes d':blue[**overfitting**]. Pour la même raison le :blue[**Weigthed F1 Score**] sera une bonne métrique d'évaluation des modèles afin d'éviter de sur considérer les classes les plus représentées."
     )
