@@ -1,4 +1,7 @@
+from pyexpat import model
 import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 
 ROOT = "../../"
 
@@ -84,8 +87,41 @@ else:
         options_models = ["Multimodale", "Voting classifier"]
     modele = st.selectbox("Choix du modèle :", options_models)
 
-    st.image(
-        f"{ROOT}reports/modeles/training_confusion_matrix_{modele}.png",
-        use_column_width=True,
-        caption=f"Confusion Matrix of {modele}",
-    )
+    if modele in ["MultinomialNB", "XGBoost"]:
+        df = pd.read_csv(f"{ROOT}reports/modeles/cv_results_{modele}.csv")
+        fig, ax = plt.subplots()
+        ax.plot(
+            df["rank_test_score"].sort_values(ascending=False), df["mean_test_score"]
+        )
+        ax.set_xlabel("Run")
+        ax.set_ylabel("Mean F1 score")
+        st.write(fig)
+        st.image(
+            f"{ROOT}reports/modeles/training_confusion_matrix_{modele}.png",
+            use_column_width=True,
+            caption=f"Confusion Matrix of {modele}",
+        )
+    elif modele in ["DNN", "RNN"]:
+        df_val_acc = pd.read_csv(
+            f"{ROOT}reports/modeles/validation_accuracy_{modele}.csv"
+        )
+        df_val_f1 = pd.read_csv(
+            f"{ROOT}reports/modeles/validation_f1_score_{modele}.csv"
+        )
+        df_val_loss = pd.read_csv(f"{ROOT}reports/modeles/validation_loss_{modele}.csv")
+        df = df_val_acc.copy()
+        df["val_f1_score"] = df_val_f1["val_f1_score"]
+        df["val_loss"] = df_val_loss["val_loss"]
+        fig, axs = plt.subplots(1, 3, figsize=(15, 7))
+        axs[0].plot(df.index, df["val_accuracy"])
+        axs[0].set_xlabel("Epoch")
+        axs[0].set_ylabel("Validation accuracy")
+
+        axs[1].plot(df.index, df["val_f1_score"])
+        axs[1].set_xlabel("Epoch")
+        axs[1].set_ylabel("Validation F1 score")
+
+        axs[2].plot(df.index, df["val_loss"])
+        axs[2].set_xlabel("Epoch")
+        axs[2].set_ylabel("Validation loss")
+        st.write(fig)
