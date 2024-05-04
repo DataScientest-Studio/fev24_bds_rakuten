@@ -176,3 +176,4 @@ cython_debug/
 /mlruns/**/checkpoints
 /mlruns/**/tensorboard_logs
 /mlruns/**/data
+/mlruns/**/model.pkl

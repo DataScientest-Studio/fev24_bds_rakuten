@@ -82,12 +82,12 @@ else:
     if type_data == "Texte":
         options_models = ["DNN", "MultinomialNB", "RNN", "XGBoost"]
     elif type_data == "Image":
-        options_models = ["CNN_EfficientNetB0", "Modèle 2", "Modèle 3"]
+        options_models = ["CNN_EfficientNetB0", "RF_HOG", "Modèle 3"]
     else:
         options_models = ["Multimodale", "Voting classifier"]
     modele = st.selectbox("Choix du modèle :", options_models)
 
-    if modele in ["MultinomialNB", "XGBoost"]:
+    if modele in ["MultinomialNB", "XGBoost", "RF_HOG"]:
         df = pd.read_csv(f"{ROOT}reports/modeles/cv_results_{modele}.csv")
         fig, ax = plt.subplots()
         ax.plot(
