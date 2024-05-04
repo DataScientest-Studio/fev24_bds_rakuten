@@ -82,7 +82,7 @@ else:
     if type_data == "Texte":
         options_models = ["DNN", "MultinomialNB", "RNN", "XGBoost"]
     elif type_data == "Image":
-        options_models = ["Modèle 1", "Modèle 2", "Modèle 3"]
+        options_models = ["CNN_EfficientNetB0", "Modèle 2", "Modèle 3"]
     else:
         options_models = ["Multimodale", "Voting classifier"]
     modele = st.selectbox("Choix du modèle :", options_models)
@@ -101,7 +101,7 @@ else:
             use_column_width=True,
             caption=f"Confusion Matrix of {modele}",
         )
-    elif modele in ["DNN", "RNN"]:
+    elif modele in ["DNN", "RNN", "CNN_EfficientNetB0"]:
         df_val_acc = pd.read_csv(
             f"{ROOT}reports/modeles/validation_accuracy_{modele}.csv"
         )
