@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/620413988401541722/7718d0df4e1f42fda17ae35ff57f7829/artifacts
+end_time: 1714935456241
+entry_point_name: ''
+experiment_id: '620413988401541722'
+lifecycle_stage: active
+run_id: 7718d0df4e1f42fda17ae35ff57f7829
+run_name: learned-mare-994
+run_uuid: 7718d0df4e1f42fda17ae35ff57f7829
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1714934090177
+status: 3
+tags: []
+user_id: jeremyrava

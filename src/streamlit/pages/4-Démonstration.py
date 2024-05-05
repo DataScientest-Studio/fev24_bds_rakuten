@@ -209,6 +209,17 @@ elif modele == "MultinomialNB":
     data = tfidf_vect.transform(data["text"])
     logged_model = "runs:/3cc7c2da8a064176a5622aa978ca3d65/best_estimator"
     loaded_model = mlflow.sklearn.load_model(logged_model)
+elif modele == "RF_HOG":
+    data = np.array(
+        [
+            extract_hog_features(
+                f"{ROOT}data/raw/images/image_test/image_{imageid}_product_{productid}.jpg"
+            )
+            for imageid, productid in zip(data["imageid"], data["productid"])
+        ]
+    )
+    logged_model = "runs:/d4a6f0783f7a441c82cea249802cde4d/best_estimator"
+    loaded_model = mlflow.sklearn.load_model(logged_model)
 else:
     logged_model = ""
 preds_df = pd.DataFrame(loaded_model.predict_proba(data), columns=loaded_model.classes_)
