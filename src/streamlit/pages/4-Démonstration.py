@@ -3,6 +3,7 @@ import mlflow
 import pandas as pd
 import numpy as np
 from tensorflow.keras.layers import TextVectorization
+from sklearn.feature_extraction.text import TfidfVectorizer
 from skimage import io, color, feature, transform
 from collections import Counter
 from wordcloud import WordCloud
@@ -64,14 +65,6 @@ if "stop_words" not in st.session_state:
     stop_words.extend(["cm", "mm"])
     st.session_state.stop_words = stop_words
 
-# Configuration pour la vectorisation du texte
-vectorize_layer = TextVectorization(
-    max_tokens=10000,
-    output_mode="int",
-    output_sequence_length=250,
-)
-vectorize_layer.adapt(st.session_state.X_train_df_komla["description"].fillna(""))
-
 
 def create_word_cloud(code):
     col_target = "lemmes"
@@ -123,7 +116,7 @@ def extract_hog_features(image_path):
     return hog_features
 
 
-def preprocessing(df):
+def show_data(df):
     # Join texts
     df["text"] = np.where(
         df["description"].isna(),
@@ -135,18 +128,7 @@ def preprocessing(df):
     col2.image(
         f"{ROOT}data/raw/images/image_test/image_{df['imageid'].values[0]}_product_{df['productid'].values[0]}.jpg"
     )
-    text_vectorized = vectorize_layer(df["text"])
-    # Préparation des caractéristiques HOG pour les images
-    features_images = np.array(
-        [
-            extract_hog_features(
-                f"{ROOT}data/raw/images/image_test/image_{imageid}_product_{productid}.jpg"
-            )
-            for imageid, productid in zip(df["imageid"], df["productid"])
-        ]
-    )
-    X_combined = np.hstack((features_images, text_vectorized))
-    return X_combined
+    return df
 
 
 # MAIN PAGE
@@ -172,14 +154,60 @@ i = st.slider(
     0,
     1,
 )
-data = preprocessing(st.session_state.X_test_df.iloc[i].to_frame().transpose())
-
 
 # Load model as a PyFuncModel.
 mlflow.set_tracking_uri("../../mlruns")
-
+data = show_data(st.session_state.X_test_df.iloc[i].to_frame().transpose())
 if modele == "Features RF":
+    # Configuration pour la vectorisation du texte
+    vectorize_layer = TextVectorization(
+        max_tokens=10000,
+        output_mode="int",
+        output_sequence_length=250,
+    )
+    vectorize_layer.adapt(st.session_state.X_train_df_komla["description"].fillna(""))
+    text_vectorized = vectorize_layer(data["text"])
+    # Préparation des caractéristiques HOG pour les images
+    features_images = np.array(
+        [
+            extract_hog_features(
+                f"{ROOT}data/raw/images/image_test/image_{imageid}_product_{productid}.jpg"
+            )
+            for imageid, productid in zip(data["imageid"], data["productid"])
+        ]
+    )
+    data = np.hstack((features_images, text_vectorized))
     logged_model = "runs:/3ed6f6fd6971442db10cff63789ff786/model"
+    loaded_model = mlflow.sklearn.load_model(logged_model)
+elif modele == "MultinomialNB":
+    df = st.session_state.X_train_preprocessed_df.copy()
+    value_counts = df["prdtypecode"].value_counts()
+    median = int(value_counts.median())
+    value_counts_index = value_counts[value_counts > median].index
+    index_row = []
+    for i in value_counts.index:
+        if i in value_counts_index:
+            index_row.extend(
+                df.loc[df["prdtypecode"] == i].sample(n=median, random_state=123).index
+            )
+        else:
+            index_row.extend(df.loc[df["prdtypecode"] == i].index)
+    df = df.loc[df.index.isin(index_row)]["text"]
+    stop_words_french = pd.read_json(f"{ROOT}data/external/stop_words_french.json")
+    stop_words = []
+    stop_words.extend(stop_words_french[0].tolist())
+    stop_words.extend(["cm", "mm"])
+    tfidf_vect = TfidfVectorizer(
+        sublinear_tf=True,
+        max_df=0.5,
+        min_df=0.00001,
+        lowercase=True,
+        stop_words=stop_words,
+        max_features=350000,
+    )
+    tfidf_vect.fit(df)
+    data = tfidf_vect.transform(data["text"])
+    logged_model = "runs:/3cc7c2da8a064176a5622aa978ca3d65/best_estimator"
     loaded_model = mlflow.sklearn.load_model(logged_model)
 else:
     logged_model = ""
