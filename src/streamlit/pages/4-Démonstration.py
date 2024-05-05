@@ -1,4 +1,14 @@
 import streamlit as st
+import mlflow
+import pandas as pd
+import numpy as np
+from tensorflow.keras.layers import TextVectorization
+from skimage import io, color, feature, transform
+from collections import Counter
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
+ROOT = "../../"
 
 # SIDEBAR
 # Pour descendre la suite
@@ -27,5 +37,156 @@ st.sidebar.info(
 )
 st.sidebar.progress(4 / 5)
 
+if "X_test_df" not in st.session_state:
+    st.session_state.X_test_df = pd.read_csv(f"{ROOT}data/raw/x_test.csv", index_col=0)
+if "X_train_df" not in st.session_state:
+    st.session_state.X_train_df = pd.read_csv(
+        f"{ROOT}data/raw/x_train.csv", index_col=0
+    )
+if "y_train_df" not in st.session_state:
+    st.session_state.y_train_df = pd.read_csv(
+        f"{ROOT}data/raw/y_train.csv", index_col=0
+    )
+if "X_train_df_komla" not in st.session_state:
+    st.session_state.X_train_df_komla = pd.read_csv(
+        f"{ROOT}data/processed/X_train_update (komla).csv", index_col=0
+    )
+if "X_train_preprocessed_df" not in st.session_state:
+    st.session_state.X_train_preprocessed_df = pd.read_csv(
+        f"{ROOT}data/processed/X_train_preprocessed.csv", index_col=0
+    )
+if "stop_words" not in st.session_state:
+    stop_words_french = pd.read_json(ROOT + "data/external/stop_words_french.json")
+    stop_words_english = pd.read_json(ROOT + "data/external/stop_words_english.json")
+    stop_words = []
+    stop_words.extend(stop_words_french[0].tolist())
+    stop_words.extend(stop_words_english[0].tolist())
+    stop_words.extend(["cm", "mm"])
+    st.session_state.stop_words = stop_words
+
+# Configuration pour la vectorisation du texte
+vectorize_layer = TextVectorization(
+    max_tokens=10000,
+    output_mode="int",
+    output_sequence_length=250,
+)
+vectorize_layer.adapt(st.session_state.X_train_df_komla["description"].fillna(""))
+
+
+def create_word_cloud(code):
+    col_target = "lemmes"
+    df = st.session_state.X_train_preprocessed_df.copy()
+    stopwords = st.session_state.stop_words
+
+    # Process each unique prdtypecode
+    code_df = df[df["prdtypecode"] == code]
+
+    # Remove words from the 'text' column
+    code_df[col_target] = code_df[col_target].apply(
+        lambda x: " ".join(
+            [word for word in x.split() if word.lower() not in stopwords]
+        )
+    )
+
+    total_text = " ".join(code_df[col_target])
+    word_counts = Counter(total_text.split())
+
+    # Sort the word counts in descending order
+    word_counts = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
+
+    # PLOTS
+    # WORDCLOUD
+    fig2, ax2 = plt.subplots()
+    # Word cloud
+    wordcloud = WordCloud(
+        background_color="white",
+        max_words=500,
+        width=640,
+        height=360,
+        collocations=False,
+    ).generate(total_text)
+    ax2.imshow(wordcloud, interpolation="bilinear")
+    ax2.axis("off")
+    ax2.set_title(f"Mots les plus fréquents sur prdtypecode: {code}")
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+    st.write(fig2)
+
+
+# Fonction pour extraire les caractéristiques HOG d'une image
+def extract_hog_features(image_path):
+    image = io.imread(image_path)
+    image_gray = color.rgb2gray(image)
+    image_resized = transform.resize(image_gray, (128, 64), anti_aliasing=True)
+    hog_features = feature.hog(
+        image_resized, pixels_per_cell=(16, 16), cells_per_block=(1, 1), visualize=False
+    )
+    return hog_features
+
+
+def preprocessing(df):
+    # Join texts
+    df["text"] = np.where(
+        df["description"].isna(),
+        df["designation"].astype(str),
+        df["designation"].astype(str) + " " + df["description"].astype(str),
+    )
+    col1, col2 = st.columns(2)
+    col1.write(df["text"].values[0])
+    col2.image(
+        f"{ROOT}data/raw/images/image_test/image_{df['imageid'].values[0]}_product_{df['productid'].values[0]}.jpg"
+    )
+    text_vectorized = vectorize_layer(df["text"])
+    # Préparation des caractéristiques HOG pour les images
+    features_images = np.array(
+        [
+            extract_hog_features(
+                f"{ROOT}data/raw/images/image_test/image_{imageid}_product_{productid}.jpg"
+            )
+            for imageid, productid in zip(df["imageid"], df["productid"])
+        ]
+    )
+    X_combined = np.hstack((features_images, text_vectorized))
+    return X_combined
+
+
 # MAIN PAGE
 st.title(":blue[DÉMONSTRATION]")
+
+type_data = st.selectbox(
+    "Choix du type de données d'entrée :", ["Texte", "Image", "Texte & image"]
+)
+if type_data == "Texte":
+    options_models = ["DNN", "MultinomialNB"]
+elif type_data == "Image":
+    options_models = ["CNN_EfficientNetB0", "RF_HOG"]
+else:
+    options_models = ["Stacking", "Features RF"]
+modele = st.selectbox("Choix du modèle :", options_models)
+
+
+# Predict on a Pandas DataFrame.
+i = st.slider(
+    "Selectionner l'index du produit :",
+    0,
+    st.session_state.X_test_df.index[-1] - st.session_state.X_test_df.index[0],
+    0,
+    1,
+)
+data = preprocessing(st.session_state.X_test_df.iloc[i].to_frame().transpose())
+
+
+# Load model as a PyFuncModel.
+mlflow.set_tracking_uri("../../mlruns")
+
+if modele == "Features RF":
+    logged_model = "runs:/3ed6f6fd6971442db10cff63789ff786/model"
+    loaded_model = mlflow.sklearn.load_model(logged_model)
+else:
+    logged_model = ""
+preds_df = pd.DataFrame(loaded_model.predict_proba(data), columns=loaded_model.classes_)
+code = int(preds_df.idxmax(axis=1)[0])
+st.success(
+    f"Prédiction du prdtypecode : {code}",
+)
+st.write(preds_df)
+create_word_cloud(code)
