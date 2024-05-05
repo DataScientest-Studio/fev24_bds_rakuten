@@ -84,7 +84,7 @@ else:
     elif type_data == "Image":
         options_models = ["CNN_EfficientNetB0", "RF_HOG", "SVM_PCA"]
     else:
-        options_models = ["Multimodale", "Voting classifier"]
+        options_models = ["Stacking", "Features RF"]
     modele = st.selectbox("Choix du modèle :", options_models)
 
     if modele in ["MultinomialNB", "XGBoost", "RF_HOG"]:
@@ -101,7 +101,7 @@ else:
             use_column_width=True,
             caption=f"Confusion Matrix of {modele}",
         )
-    elif modele in ["DNN", "RNN", "CNN_EfficientNetB0"]:
+    elif modele in ["DNN", "RNN", "CNN_EfficientNetB0", "Stacking"]:
         df_val_acc = pd.read_csv(
             f"{ROOT}reports/modeles/validation_accuracy_{modele}.csv"
         )
@@ -125,11 +125,13 @@ else:
         axs[2].set_xlabel("Epoch")
         axs[2].set_ylabel("Validation loss")
         st.write(fig)
-    elif modele == "SVM_PCA":
-        df = pd.read_csv(f"{ROOT}reports/modeles/report_pca_2_components.csv")
+    elif modele in ["SVM_PCA", "Features RF"]:
+        df = pd.read_csv(f"{ROOT}reports/modeles/report_{modele}.csv")
         st.dataframe(df)
         st.image(
             f"{ROOT}reports/modeles/training_confusion_matrix_{modele}.png",
             use_column_width=True,
             caption=f"Confusion Matrix of {modele}",
         )
+    else:
+        st.write(modele)
