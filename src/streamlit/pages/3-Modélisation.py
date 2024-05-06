@@ -69,6 +69,7 @@ if page == pages[0]:
         use_column_width=True,
         caption="Grille des principaux modèles expérimentés et leurs performances",
     )
+    st.write("#### Modèles combinés")
     st.write(
         "1. > Avec la sélection de modèles champions image et texte, nous avons enfin expérimenté des méthodes de :blue[**combinaison de modèles**] (Voting, Stacking).\n"
         "2. > L'idée de notre stratégie de modélisation étant de choisir :blue[**1 modèle texte**] et :blue[**1 modèle image**] en entrée de la technique d'ensemble (parmi les :blue[**2 types de modèles Machine Learning ou Deep Learning**]).\n"
@@ -80,15 +81,15 @@ else:
         "Choix du type de données d'entrée :", ["Texte", "Image", "Texte & image"]
     )
     if type_data == "Texte":
-        options_models = ["DNN", "MultinomialNB", "RNN", "XGBoost"]
+        options_models = ["MultinomialNB", "XGBoost", "RNN", "DNN"]
     elif type_data == "Image":
-        options_models = ["CNN_EfficientNetB0", "RF_HOG", "SVM_PCA"]
+        options_models = ["SVM_PCA", "RF_HOG", "CNN_EfficientNetB0"]
     else:
         options_models = ["Stacking", "Features RF"]
     modele = st.selectbox("Choix du modèle :", options_models)
 
     if modele == "MultinomialNB":
-        st.success("F1 score : 0.772")
+        st.success("F1 score : 0.797")
     elif modele == "DNN":
         st.success("F1 score : 0.807")
     elif modele == "RNN":
@@ -96,15 +97,15 @@ else:
     elif modele == "XGBoost":
         st.success("F1 score : 0.750")
     elif modele == "CNN_EfficientNetB0":
-        st.success("F1 score : 0.619")
+        st.success("F1 score : 0.622")
     elif modele == "RF_HOG":
-        st.success("F1 score : 0.92")
+        st.success("F1 score : 0.907")
     elif modele == "SVM_PCA":
-        st.success("F1 score : 0.239")
+        st.success("F1 score : 0.412")
     elif modele == "Stacking":
         st.success("F1 score : 0.700")
     elif modele == "Features RF":
-        st.success("F1 score : 0.942")
+        st.success("F1 score : 0.943")
 
     if modele in ["MultinomialNB", "XGBoost", "RF_HOG"]:
         df = pd.read_csv(f"{ROOT}reports/modeles/cv_results_{modele}.csv")
