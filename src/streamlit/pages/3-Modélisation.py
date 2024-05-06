@@ -87,6 +87,25 @@ else:
         options_models = ["Stacking", "Features RF"]
     modele = st.selectbox("Choix du modèle :", options_models)
 
+    if modele == "MultinomialNB":
+        st.success("F1 score : 0.772")
+    elif modele == "DNN":
+        st.success("F1 score : 0.807")
+    elif modele == "RNN":
+        st.success("F1 score : 0.775")
+    elif modele == "XGBoost":
+        st.success("F1 score : 0.750")
+    elif modele == "CNN_EfficientNetB0":
+        st.success("F1 score : 0.619")
+    elif modele == "RF_HOG":
+        st.success("F1 score : 0.92")
+    elif modele == "SVM_PCA":
+        st.success("F1 score : 0.239")
+    elif modele == "Stacking":
+        st.success("F1 score : 0.700")
+    elif modele == "Features RF":
+        st.success("F1 score : 0.942")
+
     if modele in ["MultinomialNB", "XGBoost", "RF_HOG"]:
         df = pd.read_csv(f"{ROOT}reports/modeles/cv_results_{modele}.csv")
         fig, ax = plt.subplots()
