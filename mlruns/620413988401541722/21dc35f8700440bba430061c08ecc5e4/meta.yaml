@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/620413988401541722/21dc35f8700440bba430061c08ecc5e4/artifacts
+end_time: 1714935456241
+entry_point_name: ''
+experiment_id: '620413988401541722'
+lifecycle_stage: active
+run_id: 21dc35f8700440bba430061c08ecc5e4
+run_name: rambunctious-cod-924
+run_uuid: 21dc35f8700440bba430061c08ecc5e4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1714934090177
+status: 3
+tags: []
+user_id: jeremyrava

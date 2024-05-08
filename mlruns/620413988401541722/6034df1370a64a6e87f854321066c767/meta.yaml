@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/620413988401541722/6034df1370a64a6e87f854321066c767/artifacts
+end_time: 1714830607765
+entry_point_name: ''
+experiment_id: '620413988401541722'
+lifecycle_stage: active
+run_id: 6034df1370a64a6e87f854321066c767
+run_name: grandiose-shrike-198
+run_uuid: 6034df1370a64a6e87f854321066c767
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1714829248104
+status: 3
+tags: []
+user_id: jeremyrava
