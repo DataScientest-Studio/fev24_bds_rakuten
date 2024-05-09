@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/601907313920784909/28de3a5062ea4256b0b4606095fb0692/artifacts
+end_time: 1715249538999
+entry_point_name: ''
+experiment_id: '601907313920784909'
+lifecycle_stage: active
+run_id: 28de3a5062ea4256b0b4606095fb0692
+run_name: likeable-dog-680
+run_uuid: 28de3a5062ea4256b0b4606095fb0692
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715247958040
+status: 3
+tags: []
+user_id: jeremyrava
