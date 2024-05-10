@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/601907313920784909/171219cf8ca743f3a94fd47a55fa8a2a/artifacts
+end_time: 1715249538999
+entry_point_name: ''
+experiment_id: '601907313920784909'
+lifecycle_stage: active
+run_id: 171219cf8ca743f3a94fd47a55fa8a2a
+run_name: sedate-trout-823
+run_uuid: 171219cf8ca743f3a94fd47a55fa8a2a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715247958040
+status: 3
+tags: []
+user_id: jeremyrava

@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/601907313920784909/d6a430c47a534ca8abc2a1f2041f57fa/artifacts
+end_time: 1715328684481
+entry_point_name: ''
+experiment_id: '601907313920784909'
+lifecycle_stage: active
+run_id: d6a430c47a534ca8abc2a1f2041f57fa
+run_name: secretive-shark-261
+run_uuid: d6a430c47a534ca8abc2a1f2041f57fa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715328339228
+status: 3
+tags: []
+user_id: jeremyrava

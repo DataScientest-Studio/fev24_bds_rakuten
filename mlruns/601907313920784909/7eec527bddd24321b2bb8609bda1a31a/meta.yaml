@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/601907313920784909/7eec527bddd24321b2bb8609bda1a31a/artifacts
+end_time: 1715328684481
+entry_point_name: ''
+experiment_id: '601907313920784909'
+lifecycle_stage: active
+run_id: 7eec527bddd24321b2bb8609bda1a31a
+run_name: popular-asp-400
+run_uuid: 7eec527bddd24321b2bb8609bda1a31a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715328339228
+status: 3
+tags: []
+user_id: jeremyrava

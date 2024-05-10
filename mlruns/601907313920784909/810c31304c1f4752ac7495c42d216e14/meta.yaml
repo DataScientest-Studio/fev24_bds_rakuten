@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/601907313920784909/810c31304c1f4752ac7495c42d216e14/artifacts
+end_time: 1715328684481
+entry_point_name: ''
+experiment_id: '601907313920784909'
+lifecycle_stage: active
+run_id: 810c31304c1f4752ac7495c42d216e14
+run_name: bald-goat-330
+run_uuid: 810c31304c1f4752ac7495c42d216e14
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715328339228
+status: 3
+tags: []
+user_id: jeremyrava

@@ -1,0 +1,15 @@
+artifact_uri: /Users/jeremyrava/Documents/01 - Projets/fev24_bds_rakuten/notebooks/modeling/../../mlruns/601907313920784909/65dcaf2fb1204a2a97386a831c958223/artifacts
+end_time: 1715189454026
+entry_point_name: ''
+experiment_id: '601907313920784909'
+lifecycle_stage: active
+run_id: 65dcaf2fb1204a2a97386a831c958223
+run_name: dazzling-whale-21
+run_uuid: 65dcaf2fb1204a2a97386a831c958223
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715184320779
+status: 3
+tags: []
+user_id: jeremyrava
